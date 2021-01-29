@@ -1,0 +1,27 @@
+projection;
+use draft;
+
+define behavior for ZC_CUSTOMER_M_AKIN alias Customer
+use etag
+{
+  use create;
+  use update;
+  use delete;
+
+  use association _Order { create; with draft; }
+
+  field ( mandatory ) FirstName, LastName, Postcode, Street, City;
+}
+
+define behavior for ZC_ORDER_M_AKIN alias Order
+use etag
+{
+  use update;
+  use delete;
+
+  use association _Customer { with draft; }
+
+  use action acceptOrder;
+  use action rejectOrder;
+  use action finishOrder;
+}

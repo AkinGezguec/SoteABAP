@@ -1,0 +1,68 @@
+@Metadata.layer: #CORE
+    @UI: {
+      headerInfo: { typeName: 'Customer',
+                    typeNamePlural: 'Customers',
+                    title: { type: #STANDARD, label: 'Customer', value: 'CustomerID' } },
+      presentationVariant: [{ sortOrder: [{ by: 'CustomerID', direction:  #DESC }], visualizations: [{type: #AS_LINEITEM}] }] }
+
+    annotate view ZC_CUSTOMER_M_AKIN with
+    {
+      @UI.facet: [ { id:              'Customer',
+                     purpose:         #STANDARD,
+                     type:            #IDENTIFICATION_REFERENCE,
+                     label:           'Customer',
+                     position:        10 },
+                   { id:              'Order',
+                     purpose:         #STANDARD,
+                     type:            #LINEITEM_REFERENCE,
+                     label:           'Order',
+                     position:        20,
+                     targetElement:   '_Order'} ]
+      
+      @UI:{   identification: [ { position: 1, label: 'Customer UUID' }] }
+      CustomerUUID;
+
+      @UI: {  lineItem:       [ { position: 10 } ],
+              identification: [ { position: 10 } ],
+              selectionField: [ { position: 10 } ] }
+      CustomerID;
+      
+      @UI: {  lineItem:       [ { position: 20 } ],
+              identification: [ { position: 20 } ]}
+//              selectionField: [ { position: 20 } ]
+      FirstName;
+
+      @UI: {  lineItem:       [ { position: 30 } ],
+              identification: [ { position: 30 } ]}
+//              selectionField: [ { position: 30 } ] 
+      LastName;
+
+      @UI: {  lineItem:       [ { position: 40 } ],
+              identification: [ { position: 40 } ] }
+      Company;
+
+      @UI: {  lineItem:       [ { position: 50 } ],
+              identification: [ { position: 50 } ] }
+      Postcode;
+
+      @UI: {  lineItem:       [ { position: 60 } ],
+              identification: [ { position: 60 } ] }
+      Street;
+
+      @UI: {  lineItem:       [ { position: 70 } ],
+              identification: [ { position: 70 } ] }
+      City;
+
+      @UI: {  lineItem:       [ { position: 80 } ],
+              identification: [ { position: 80, label: 'Cust. segment [B(Business)|P(Private)]' } ] }
+      Customersegment;
+
+      @UI.hidden: true
+      LastChangedAt;
+
+      @UI.hidden: true
+      LocalLastChangedAt;
+
+      @UI.selectionField: [{ element: '_Order.OrderID', position: 20 }]
+      _Order;
+    }

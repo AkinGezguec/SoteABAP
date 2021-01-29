@@ -1,0 +1,5 @@
+@EndUserText.label: 'Service def for container-service app'
+define service ZUI_CUSTOMER_M_AKIN {
+  expose ZC_CUSTOMER_M_AKIN as UICustomer;
+  expose ZC_ORDER_M_AKIN as UIOrder;
+}

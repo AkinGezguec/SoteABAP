@@ -1,0 +1,68 @@
+@Metadata.layer: #CORE
+    @UI: {
+      headerInfo: { typeName: 'Order',
+                    typeNamePlural: 'Orders',
+                    title: { type: #STANDARD, value: 'OrderID' } } }
+
+    annotate view ZC_ORDER_M_AKIN with
+    {
+      @UI.facet: [ { id:            'Order',
+                     purpose:       #STANDARD,
+                     type:          #IDENTIFICATION_REFERENCE,
+                     label:         'Order',
+                     position:      10 }  ]
+
+      @UI: { identification: [ { position: 10, label: 'Order UUID'  } ] }
+      OrderUUID;
+
+      @UI.hidden: true
+      CustomerUUID;
+      
+      @UI: { lineItem:       [ { position: 10 } ],
+             identification: [ { position: 10 } ],
+             selectionField: [ { position: 10 } ] }
+      OrderID;
+      
+       @UI: { lineItem:      [ { position: 20 } ],
+             identification: [ { position: 20 } ],
+             selectionField: [ { position: 20 } ] }
+      CustomerID;
+
+      
+      @UI: { lineItem:       [ { position: 30, label: 'DeliveryDate'  } ],
+             identification: [ { position: 30, label: 'DeliveryDate'  } ] }
+      DeliveryDate;
+
+      @UI: { lineItem:       [ { position: 40, label: 'PickupDate' } ],
+             identification: [ { position: 40, label: 'PickupDate' } ] }
+      PickupDate;
+
+      @UI: { lineItem:       [ { position: 50 } ],
+             identification: [ { position: 50 } ] }
+      Weight;
+
+      @UI: { lineItem:       [ { position: 60 } ],
+             identification: [ { position: 60 } ] }
+      Unitofmeasure;
+
+      @UI: { lineItem:       [ { position: 70 } ],
+             identification: [ { position: 70, label: 'Category [CW|W|MAS|PCW|EAS]' } ] }
+      Category;
+
+      @UI: { lineItem:       [ { position: 80 } ],
+             identification: [ { position: 80 } ] }
+      Customercomment;
+      
+      @UI: { lineItem:       [ { position: 90 }, 
+                               { type: #FOR_ACTION, dataAction: 'acceptOrder', label: 'Accept order' },
+                               { type: #FOR_ACTION, dataAction: 'rejectOrder', label: 'Reject order' },
+                               { type: #FOR_ACTION, dataAction: 'finishOrder', label: 'Finish order' } ],
+             identification: [ { position: 90 },
+                               { type: #FOR_ACTION, dataAction: 'acceptOrder', label: 'Accept order' },
+                               { type: #FOR_ACTION, dataAction: 'rejectOrder', label: 'Reject order' }, 
+                               { type: #FOR_ACTION, dataAction: 'finishOrder', label: 'Finish order' } ] } 
+      Status;
+
+      @UI.hidden: true
+      LocalLastChangedAt;
+    }

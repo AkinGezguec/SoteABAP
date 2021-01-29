@@ -1,0 +1,86 @@
+managed;
+with draft;
+
+    define behavior for ZI_CUSTOMER_M_AKIN alias Customer
+    implementation in class zbp_i_rap_customer_akin unique
+    persistent table zcustomer_akin
+    draft table zcustomer_d_akin
+    lock master total etag LastChangedAt
+    etag master LocalLastChangedAt
+    {
+      create;
+      update;
+      delete;
+
+      association _Order { create; with draft; }
+
+      field ( numbering : managed, readonly ) CustomerUUID;
+      field ( mandatory ) FirstName, LastName, Postcode, Street, City;
+      field ( readonly  ) CustomerID;
+      field ( readonly  ) LastChangedAt, LastChangedBy, CreatedAt, CreatedBy, LocalLastChangedAt;
+
+      determination calculateCustomerID   on save   { create; }
+
+      mapping for zcustomer_akin
+      {
+        CustomerUUID       = customer_uuid;
+        CustomerID         = customer_id;
+        FirstName          = firstname;
+        LastName           = lastname;
+        Company            = companyname;
+        Postcode           = postcode;
+        Street             = street;
+        City               = city;
+        Customersegment    = customersegment;
+        CreatedBy          = created_by;
+        CreatedAt          = created_at;
+        LastChangedBy      = last_changed_by;
+        LastChangedAt      = last_changed_at;
+        LocalLastChangedAt = local_last_changed_at;
+      }
+    }
+
+    define behavior for ZI_ORDER_M_AKIN alias Order
+    implementation in class zbp_i_rap_order_akin unique
+    persistent table zorder_akin
+    draft table zorder_d_akin
+    lock dependent by _Customer
+    etag master LocalLastChangedAt
+    {
+      update;
+      delete;
+
+      association _Customer { with draft; }
+
+      field ( numbering : managed, readonly ) OrderUUID;
+      field ( mandatory ) Category, Status;
+      field ( readonly ) CustomerUUID, OrderID;
+      field ( readonly ) CreatedBy, LastChangedBy, LocalLastChangedAt;
+
+      action ( features : instance ) acceptOrder result [1] $self;
+      action ( features : instance ) rejectOrder result [1] $self;
+      action ( features : instance ) finishOrder result [1] $self;
+
+      determination calculateOrderID  on modify { create; }
+      determination setInitialStatus  on modify { create; }
+
+      validation validateDates on save { field DeliveryDate, PickupDate; create; }
+      validation validateStatus on save { field Status; create; }
+
+      mapping for zorder_akin
+      {
+        OrderUUID          = order_uuid;
+        CustomerUUID       = customer_uuid;
+        OrderID            = order_id;
+        DeliveryDate       = delivery_date;
+        PickupDate         = pickup_date;
+        Weight             = weight;
+        Unitofmeasure      = unitofmeasure;
+        Category           = category;
+        Customercomment    = customercomment;
+        Status             = status;
+        CreatedBy          = created_by;
+        LastChangedBy      = last_changed_by;
+        LocalLastChangedAt = local_last_changed_at;
+      }
+    }
